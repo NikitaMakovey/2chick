@@ -1,19 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="container">
+      <div class="content">
+        <template v-for="post in POSTS">
+          <p>{{ post.body }}</p>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import axios from 'axios';
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  export default {
+    data() {
+      return {
+        posts : []
+      }
+    },
+    mounted() {
+      axios.get('http://localhost:8081/api/ch/posts/').then(({data}) => { this.posts = data })
+    },
+    computed: {
+      POSTS() { return this.posts }
+    }
   }
-}
 </script>
 
 <style>
